@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/python3.6
 """
 Created on 03. 06. 2019
 
@@ -15,6 +15,15 @@ while MTTool requires:
 """
 
 import sys
+
+# list of references to be omitted:
+OMIT_REFS = []
+# CUBE model A:
+# OMIT_REFS = ["R16", "U2", "C2", "D6", "L1", "R1", "R2", "C3", "SW2", "R8", "R9", "R10", "R11", "R12", "R13", "R15", "Q1", "Q2", "D1"]
+# CUBE model B:
+# OMIT_REFS = ["R16", "U3", "R6", "Q4", "D2", "U4", "C11", "SW2", "R8", "R9", "R10", "R11", "R12", "R13", "R15", "Q1", "Q2", "D1"]
+# CUBE univerzal:
+# OMIT_REFS = ["R16", "U2", "C2", "D6", "L1", "R1", "R2", "C3", "U3", "R6", "Q4", "D2", "U4", "C11", "SW2", "R8", "R9", "R10", "R11", "R12", "R13", "R15", "Q1", "Q2", "D1"]
 
 
 def processArgs():
@@ -55,6 +64,10 @@ if __name__ == '__main__':
             rotation = items[5].strip()
             side = items[6].strip()
             side = 'T' if side == 'top' else 'B'
+
+            if reference.replace("\"", "") in OMIT_REFS:
+                print(f"Omitting {reference}")
+                continue
 
             # Designator, Footprint, Mid X, Mid Y, Ref X, Ref Y, Pad X, Pad Y, TB, Rotation, Comment
             outLine = f"{reference},{package},{posX},{posY},{posX},{posY},{posX},{posY},{side},{rotation},{value}\n"
